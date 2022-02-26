@@ -1,3 +1,4 @@
+from django.db.models import ObjectDoesNotExist
 from rest_framework import status
 from rest_framework.test import APITestCase
 from .. import models
@@ -375,5 +376,101 @@ class UpdateBlockByIdTestCase(APITestCase):
         block = models.TextBlock.objects.create(**data)
 
         res = self.client.patch(f'/v2/block/{block.id}/', updated_data)
+
+        self.assertEqual(res.status_code, status.HTTP_401_UNAUTHORIZED)
+
+
+class DeleteBlockByIdTestCase(APITestCase):
+
+    def setUp(self) -> None:
+        self.user = models.User.objects.create(
+            email='test@example.com', password='testpass'
+        )
+        self.user.set_password(self.user.password)
+        self.user.save()
+
+    def test_authenticated_and_owner(self):
+        data = {
+            'title': 'Intro',
+            'text': 'This document is ...'
+        }
+
+        block = models.TextBlock.objects.create(**data)
+        models.PermissionBlock.objects.create(
+            block=block, user=self.user,
+            permission=models.PermissionBlock.PermissionEnum.OWNER
+        )
+
+        self.client.force_authenticate(user=self.user)
+
+        res = self.client.delete(f'/v2/block/{block.id}/')
+
+        self.assertEqual(res.status_code, status.HTTP_204_NO_CONTENT)
+
+        with self.assertRaises(ObjectDoesNotExist):
+            block.refresh_from_db()
+
+    def test_authenticated_and_editor(self):
+        data = {
+            'title': 'Intro',
+            'text': 'This document is ...'
+        }
+
+        block = models.TextBlock.objects.create(**data)
+        models.PermissionBlock.objects.create(
+            block=block, user=self.user,
+            permission=models.PermissionBlock.PermissionEnum.EDITOR
+        )
+
+        self.client.force_authenticate(user=self.user)
+
+        res = self.client.delete(f'/v2/block/{block.id}/')
+
+        self.assertEqual(res.status_code, status.HTTP_204_NO_CONTENT)
+
+        with self.assertRaises(ObjectDoesNotExist):
+            block.refresh_from_db()
+
+    def test_authenticated_and_view(self):
+        data = {
+            'title': 'Intro',
+            'text': 'This document is ...'
+        }
+
+        block = models.TextBlock.objects.create(**data)
+        models.PermissionBlock.objects.create(
+            block=block, user=self.user,
+            permission=models.PermissionBlock.PermissionEnum.VIEW
+        )
+
+        self.client.force_authenticate(user=self.user)
+
+        res = self.client.delete(f'/v2/block/{block.id}/')
+
+        self.assertEqual(res.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_authenticated(self):
+        data = {
+            'title': 'Intro',
+            'text': 'This document is ...'
+        }
+
+        block = models.TextBlock.objects.create(**data)
+
+        self.client.force_authenticate(user=self.user)
+
+        res = self.client.delete(f'/v2/block/{block.id}/')
+
+        self.assertEqual(res.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_unauthenticated(self):
+        data = {
+            'title': 'Intro',
+            'text': 'This document is ...'
+        }
+
+        block = models.TextBlock.objects.create(**data)
+
+        res = self.client.delete(f'/v2/block/{block.id}/')
 
         self.assertEqual(res.status_code, status.HTTP_401_UNAUTHORIZED)

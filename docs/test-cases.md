@@ -75,13 +75,13 @@
 ### Delete block by id
 
 **Success**:
-- [ ] Authenticated and Owner
-- [ ] Authenticated and Editor
+- [x] Authenticated and Owner
+- [x] Authenticated and Editor
 
 **Fail**:
-- [ ] Unauthenticated
-- [ ] Authenticated
-- [ ] Authenticated and View
+- [x] Unauthenticated
+- [x] Authenticated
+- [x] Authenticated and View
 
 ## PermissionBlock
 

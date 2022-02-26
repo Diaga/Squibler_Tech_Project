@@ -29,7 +29,8 @@ class UserViewSet(GenericViewSet,
 class TextBlockViewSet(GenericViewSet,
                        mixins.CreateModelMixin,
                        mixins.RetrieveModelMixin,
-                       mixins.UpdateModelMixin):
+                       mixins.UpdateModelMixin,
+                       mixins.DestroyModelMixin):
     queryset = models.TextBlock.objects.all()
     serializer_class = serializers.TextBlockSerializer
 
@@ -37,5 +38,6 @@ class TextBlockViewSet(GenericViewSet,
         IsAuthenticated,
         (IsPOST & (IsOWNER | IsEDITOR)) |
         (IsGET & (IsOWNER | IsEDITOR | IsVIEW)) |
-        (IsPATCH & (IsOWNER | IsEDITOR))
+        (IsPATCH & (IsOWNER | IsEDITOR)) |
+        (IsDELETE & (IsOWNER | IsEDITOR))
     ]
