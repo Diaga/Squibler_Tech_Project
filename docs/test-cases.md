@@ -31,11 +31,11 @@
 ### Retrieve user by id
 
 **Success**:
-- [ ] Authenticated
+- [x] Authenticated
 
 **Fail**:
-- [ ] Unauthenticated
-- [ ] User does not exist
+- [x] Unauthenticated
+- [x] User does not exist
 
 ## TextBlock
 
