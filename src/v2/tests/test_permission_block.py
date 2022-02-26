@@ -317,3 +317,81 @@ class UpdatePermissionBlockByIdTestCase(APITestCase):
             f'/v2/permission/block/{self.other_permission_block.id}/', data)
 
         self.assertEqual(res.status_code, status.HTTP_401_UNAUTHORIZED)
+
+
+class DeletePermissionBlockByIdTestCase(APITestCase):
+
+    def setUp(self) -> None:
+        self.user = models.User.objects.create(
+            email='test@example.com', password='testpass'
+        )
+        self.user.set_password(self.user.password)
+        self.user.save()
+
+        self.block = models.TextBlock.objects.create(
+            title='Intro', text='This document is ...',
+        )
+
+        self.other_user = models.User.objects.create(
+            email='other@example.com', password='testpass'
+        )
+        self.other_user.set_password(self.other_user.password)
+        self.other_user.save()
+
+        self.other_permission_block = models.PermissionBlock.objects.create(
+            block=self.block, user=self.other_user,
+            permission=models.PermissionBlock.PermissionEnum.EDITOR
+        )
+
+    def test_authenticated_and_owner(self):
+        models.PermissionBlock.objects.create(
+            block=self.block, user=self.user,
+            permission=models.PermissionBlock.PermissionEnum.OWNER
+        )
+
+        self.client.force_authenticate(user=self.user)
+
+        res = self.client.delete(
+            f'/v2/permission/block/{self.other_permission_block.id}/')
+
+        self.assertEqual(res.status_code, status.HTTP_204_NO_CONTENT)
+
+    def test_authenticated_and_editor(self):
+        models.PermissionBlock.objects.create(
+            block=self.block, user=self.user,
+            permission=models.PermissionBlock.PermissionEnum.EDITOR
+        )
+
+        self.client.force_authenticate(user=self.user)
+
+        res = self.client.delete(
+            f'/v2/permission/block/{self.other_permission_block.id}/')
+
+        self.assertEqual(res.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_authenticated_and_view(self):
+        models.PermissionBlock.objects.create(
+            block=self.block, user=self.user,
+            permission=models.PermissionBlock.PermissionEnum.VIEW
+        )
+
+        self.client.force_authenticate(user=self.user)
+
+        res = self.client.delete(
+            f'/v2/permission/block/{self.other_permission_block.id}/')
+
+        self.assertEqual(res.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_authenticated(self):
+        self.client.force_authenticate(user=self.user)
+
+        res = self.client.delete(
+            f'/v2/permission/block/{self.other_permission_block.id}/')
+
+        self.assertEqual(res.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_unauthenticated(self):
+        res = self.client.delete(
+            f'/v2/permission/block/{self.other_permission_block.id}/')
+
+        self.assertEqual(res.status_code, status.HTTP_401_UNAUTHORIZED)

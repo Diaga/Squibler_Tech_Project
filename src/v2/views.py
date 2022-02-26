@@ -46,7 +46,8 @@ class TextBlockViewSet(GenericViewSet,
 class PermissionBlockViewSet(GenericViewSet,
                              mixins.CreateModelMixin,
                              mixins.ListModelMixin,
-                             mixins.UpdateModelMixin):
+                             mixins.UpdateModelMixin,
+                             mixins.DestroyModelMixin):
     queryset = models.PermissionBlock.objects.all()
     serializer_class = serializers.PermissionBlockSerializer
 
