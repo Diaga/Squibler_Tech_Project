@@ -10,6 +10,7 @@ ObtainAuthToken.renderer_classes = (renderers.JSONRenderer,
 
 router = DefaultRouter()
 router.register(r'user', views.UserViewSet)
+router.register(r'block', views.TextBlockViewSet)
 
 urlpatterns = router.urls + [
     path('auth/login/', ObtainAuthToken.as_view()),

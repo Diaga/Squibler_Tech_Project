@@ -15,9 +15,24 @@ class TextBlockSerializer(ModelSerializer):
     class Meta:
         model = models.TextBlock
         fields = ('id', 'title', 'text', 'parent', 'children')
+        extra_kwargs = {
+            'children': {'required': False}
+        }
+
+    def create(self, validated_data):
+        instance = super().create(validated_data)
+
+        if instance.parent is None:
+            models.PermissionBlock.objects.create(
+                block=instance,
+                user=self.context['request'].user,
+                permission=models.PermissionBlock.PermissionEnum.OWNER
+            )
+
+        return instance
 
 
-class PermissionBlock(ModelSerializer):
+class PermissionBlockSerializer(ModelSerializer):
     class Meta:
         model = models.PermissionBlock
         fields = ('id', 'permission', 'block', 'user')

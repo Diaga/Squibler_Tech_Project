@@ -2,7 +2,8 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet, mixins
 from rest_framework.permissions import IsAuthenticated
-from .permissions import IsGET, IsPOST, IsPATCH, IsDELETE
+from .permissions import IsGET, IsPOST, IsPATCH, IsDELETE, IsOWNER, IsEDITOR, \
+    IsVIEW
 
 from . import models
 from . import serializers
@@ -23,3 +24,14 @@ class UserViewSet(GenericViewSet,
         """Return authenticated user"""
         serializer = self.get_serializer(request.user)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class TextBlockViewSet(GenericViewSet,
+                       mixins.CreateModelMixin):
+    queryset = models.TextBlock.objects.all()
+    serializer_class = serializers.TextBlockSerializer
+
+    permission_classes = [
+        IsAuthenticated,
+        IsPOST & (IsOWNER | IsEDITOR)
+    ]

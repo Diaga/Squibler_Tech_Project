@@ -4,14 +4,14 @@
 
 ### Login user
 
-- **URL:** api/auth/login/
+- **URL:** v2/auth/login/
 - **Method:** POST
 
 **Request:**
 
 ```json
 {
-  "email": "test@example.com",
+  "username": "test@example.com",
   "password": "<password>"
 }
 ```
@@ -26,7 +26,7 @@
 
 ### Create user
 
-- **URL:** api/user/
+- **URL:** v2/user/
 - **Method:** POST
 
 **Request:**
@@ -49,7 +49,7 @@
 
 ### Retrieve authenticated user
 
-- **URL:** api/user/
+- **URL:** v2/user/
 - **Method:** GET
 - **Permissions:**
     - Auth
@@ -65,7 +65,7 @@
 
 ### Retrieve user by id
 
-- **URL:** api/user/<:id>
+- **URL:** v2/user/<:id>
 - **Method:** GET
 - **Permissions:**
     - Auth
@@ -83,7 +83,7 @@
 
 ### Create block
 
-- **URL:** api/block/<:id>
+- **URL:** v2/block/
 - **Method:** POST
 - **Permissions**:
     - Editor or above
@@ -113,7 +113,7 @@
 
 ### Retrieve block by id
 
-- **URL:** api/block/<:id>
+- **URL:** v2/block/<:id>
 - **Method:** GET
 - **Permissions**:
     - View or above
@@ -136,7 +136,7 @@
 
 ### Update block by id
 
-- **URL:** api/block/<:id>
+- **URL:** v2/block/<:id>
 - **Method:** PATCH
 - **Permissions**:
     - Editor or above
@@ -167,7 +167,7 @@
 
 ### Delete block by id
 
-- **URL:** api/block/<:id>
+- **URL:** v2/block/<:id>
 - **Method:** DELETE
 - **Permissions**:
     - Editor or above
@@ -192,7 +192,7 @@
 
 ### Create permission block
 
-- **URL:** api/permission/block/
+- **URL:** v2/permission/block/
 - **Method:** POST
 - **Permissions**:
     - Owner
@@ -221,7 +221,7 @@
 
 ### Retrieve permission blocks by block id
 
-- **URL:** api/permission/block
+- **URL:** v2/permission/block
 - **Params:**: block_id
 - **Method:** GET
 - **Permissions**:
@@ -249,7 +249,7 @@
 
 ### Update permission block by id
 
-- **URL:** api/permission/block/<:id>
+- **URL:** v2/permission/block/<:id>
 - **Method:** PATCH
 - **Permissions**:
     - Owner
@@ -276,7 +276,7 @@
 
 ### Delete permission block by id
 
-- **URL:** api/permission/block/<:id>
+- **URL:** v2/permission/block/<:id>
 - **Method:** DELETE
 - **Permissions**:
     - Owner

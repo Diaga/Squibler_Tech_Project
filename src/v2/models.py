@@ -21,12 +21,33 @@ class User(AbstractBaseUser):
         return self.email
 
 
+class TextBlockManager(models.Manager):
+
+    def find_root(self, block_id):
+        """Recursively finds the root of the block"""
+        return TextBlock.objects.raw('''
+                WITH RECURSIVE block(id, parent) AS (
+                      SELECT id, parent 
+                      FROM v2_textblock
+                      WHERE id = %s
+                    UNION ALL
+                      SELECT tb.id, tb.parent
+                      FROM v2_textblock AS tb, block AS b
+                      WHERE tb.id = b.parent
+                    )
+                SELECT * FROM v2_textblock
+            ''', [block_id, ])
+
+
 class TextBlock(models.Model):
     id = models.UUIDField(primary_key=True, editable=False, default=uuid4)
     title = models.CharField(max_length=255, default='Untitled')
     text = models.TextField(blank=True)
 
-    parent = models.ForeignKey('TextBlock', on_delete=models.CASCADE)
+    parent = models.ForeignKey('TextBlock', on_delete=models.CASCADE,
+                               null=True)
+
+    objects = TextBlockManager()
 
     class Meta:
         app_label = 'v2'
