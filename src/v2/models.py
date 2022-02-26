@@ -1,7 +1,7 @@
 from uuid import uuid4
 
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser
+from django.contrib.auth.models import AbstractBaseUser, UserManager
 
 
 class User(AbstractBaseUser):
@@ -10,6 +10,8 @@ class User(AbstractBaseUser):
 
     EMAIL_FIELD = 'email'
     USERNAME_FIELD = 'email'
+
+    objects = UserManager()
 
     class Meta:
         app_label = 'v2'
