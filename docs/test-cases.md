@@ -88,13 +88,13 @@
 ### Create permission block
 
 **Success**:
-- [ ] Authenticated and Owner
+- [x] Authenticated and Owner
 
 **Fail**:
-- [ ] Unauthenticated
-- [ ] Authenticated
-- [ ] Authenticated and View
-- [ ] Authenticated and Editor
+- [x] Unauthenticated
+- [x] Authenticated
+- [x] Authenticated and View
+- [x] Authenticated and Editor
 
 ### Retrieve permission blocks by block id
 

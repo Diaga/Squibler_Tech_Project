@@ -42,7 +42,8 @@ class IsOWNER(BasePermission):
 
     def has_permission(self, request, view):
         if request.method == 'POST':
-            parent_id = request.data.get('parent', None)
+            parent_id = request.data.get('parent',
+                                         request.data.get('block', None))
             if parent_id is not None:
                 root = models.TextBlock.objects.find_root(parent_id)[0]
                 return root.permission_blocks.filter(
@@ -65,7 +66,8 @@ class IsEDITOR(BasePermission):
 
     def has_permission(self, request, view):
         if request.method == 'POST':
-            parent_id = request.data.get('parent', None)
+            parent_id = request.data.get('parent',
+                                         request.data.get('block', None))
             if parent_id is not None:
                 root = models.TextBlock.objects.find_root(parent_id)[0]
                 return root.permission_blocks.filter(
@@ -88,7 +90,8 @@ class IsVIEW(BasePermission):
 
     def has_permission(self, request, view):
         if request.method == 'POST':
-            parent_id = request.data.get('parent', None)
+            parent_id = request.data.get('parent',
+                                         request.data.get('block', None))
             if parent_id is not None:
                 root = models.TextBlock.objects.find_root(parent_id)[0]
                 return root.permission_blocks.filter(

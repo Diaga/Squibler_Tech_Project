@@ -23,7 +23,8 @@ class User(AbstractBaseUser):
 
 class TextBlockManager(models.Manager):
 
-    def find_root(self, block_id):
+    @staticmethod
+    def find_root(block_id):
         """Recursively finds the root of the block"""
         return TextBlock.objects.raw('''
                 WITH RECURSIVE block(id, parent) AS (

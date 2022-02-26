@@ -41,3 +41,14 @@ class TextBlockViewSet(GenericViewSet,
         (IsPATCH & (IsOWNER | IsEDITOR)) |
         (IsDELETE & (IsOWNER | IsEDITOR))
     ]
+
+
+class PermissionBlockViewSet(GenericViewSet,
+                             mixins.CreateModelMixin):
+    queryset = models.PermissionBlock.objects.all()
+    serializer_class = serializers.PermissionBlockSerializer
+
+    permission_classes = [
+        IsAuthenticated,
+        IsOWNER
+    ]

@@ -73,7 +73,7 @@ class CreateTextBlockTestCase(APITestCase):
             id=res.data['id']
         ).first()
 
-        self.assertEqual(res.data, serializers.TextBlockSerializer(
+        self.assertDictEqual(res.data, serializers.TextBlockSerializer(
             editor_block
         ).data)
 
