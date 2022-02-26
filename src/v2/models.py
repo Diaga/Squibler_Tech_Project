@@ -71,6 +71,11 @@ class PermissionBlock(models.Model):
     block = models.ForeignKey(TextBlock, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
+    @property
+    def parent(self):
+        """For compatibility with TextBlock permissions"""
+        return self.block
+
     class Meta:
         app_label = 'v2'
         default_related_name = 'permission_blocks'

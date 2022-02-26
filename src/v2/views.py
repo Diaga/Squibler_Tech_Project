@@ -45,7 +45,8 @@ class TextBlockViewSet(GenericViewSet,
 
 class PermissionBlockViewSet(GenericViewSet,
                              mixins.CreateModelMixin,
-                             mixins.ListModelMixin):
+                             mixins.ListModelMixin,
+                             mixins.UpdateModelMixin):
     queryset = models.PermissionBlock.objects.all()
     serializer_class = serializers.PermissionBlockSerializer
 
@@ -61,4 +62,5 @@ class PermissionBlockViewSet(GenericViewSet,
         if block_id is not None:
             return queryset.filter(block__id=block_id).all()
 
-        return models.PermissionBlock.objects.none()
+        return models.PermissionBlock.objects.none() \
+            if self.request.method == 'GET' else queryset

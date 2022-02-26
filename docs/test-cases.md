@@ -99,24 +99,24 @@
 ### Retrieve permission blocks by block id
 
 **Success**:
-- [ ] Authenticated and Owner
+- [x] Authenticated and Owner
 
 **Fail**:
-- [ ] Unauthenticated
-- [ ] Authenticated
-- [ ] Authenticated and View
-- [ ] Authenticated and Editor
+- [x] Unauthenticated
+- [x] Authenticated
+- [x] Authenticated and View
+- [x] Authenticated and Editor
 
 ### Update permission block by id
 
 **Success**:
-- [ ] Authenticated and Owner
+- [x] Authenticated and Owner
 
 **Fail**:
-- [ ] Unauthenticated
-- [ ] Authenticated
-- [ ] Authenticated and View
-- [ ] Authenticated and Editor
+- [x] Unauthenticated
+- [x] Authenticated
+- [x] Authenticated and View
+- [x] Authenticated and Editor
 
 ### Delete permission block by id
 
