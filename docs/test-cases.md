@@ -64,13 +64,13 @@
 ### Update block by id
 
 **Success**:
-- [ ] Authenticated and Editor
-- [ ] Authenticated and Owner
+- [x] Authenticated and Editor
+- [x] Authenticated and Owner
 
 **Fail**:
-- [ ] Unauthenticated
-- [ ] Authenticated
-- [ ] Authenticated and View
+- [x] Unauthenticated
+- [x] Authenticated
+- [x] Authenticated and View
 
 ### Delete block by id
 
