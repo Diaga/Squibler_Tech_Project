@@ -8,10 +8,17 @@ from . import models
 from . import serializers
 
 
-class UserViewSet(GenericViewSet, mixins.CreateModelMixin):
+class UserViewSet(GenericViewSet,
+                  mixins.CreateModelMixin):
     queryset = models.User.objects.all()
     serializer_class = serializers.UserSerializer
 
     permission_classes = [
-        IsPOST & ~IsAuthenticated
+        (IsPOST & ~IsAuthenticated) |
+        (IsGET & IsAuthenticated)
     ]
+
+    def list(self, request):
+        """Return authenticated user"""
+        serializer = self.get_serializer(request.user)
+        return Response(serializer.data, status=status.HTTP_200_OK)

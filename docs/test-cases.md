@@ -5,28 +5,28 @@
 ### Login user
 
 **Success**:
-- [ ] Correct credentials
+- [x] Correct credentials
 
 **Fail**:
-- [ ] User does not exist
-- [ ] Incorrect credentials
+- [x] User does not exist
+- [x] Incorrect credentials
 
 ### Create user
 
 **Success**:
-- [ ] Unauthenticated
+- [x] Unauthenticated
 
 **Fail**:
-- [ ] Authenticated
-- [ ] Non-validated email
+- [x] Authenticated
+- [x] Non-validated email
 
 ### Retrieve authenticated user
 
 **Success**:
-- [ ] Authenticated
+- [x] Authenticated
 
 **Fail**:
-- [ ] Unauthenticated
+- [x] Unauthenticated
 
 ### Retrieve user by id
 
