@@ -1,5 +1,6 @@
 # Python environment
 venv/
+__pycache__
 
 # System Specific files
 .DS_Store

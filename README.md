@@ -13,6 +13,8 @@ A platform where users can write books and save it on cloud without keeping file
 
 ## Docs
 
+Please view [docs](docs/README.md) for software design decisions.
+
 ## Contributing
 
 ## License
