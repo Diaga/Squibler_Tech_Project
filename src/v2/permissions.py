@@ -41,15 +41,19 @@ class IsDELETE(BasePermission):
 class IsOWNER(BasePermission):
 
     def has_permission(self, request, view):
+        parent_id = None
         if request.method == 'POST':
             parent_id = request.data.get('parent',
                                          request.data.get('block', None))
-            if parent_id is not None:
-                root = models.TextBlock.objects.find_root(parent_id)[0]
-                return root.permission_blocks.filter(
-                    user=request.user,
-                    permission=models.PermissionBlock.PermissionEnum.OWNER
-                ).exists()
+        elif request.method == 'GET':
+            parent_id = request.query_params.get('block', None)
+
+        if parent_id is not None:
+            root = models.TextBlock.objects.find_root(parent_id)[0]
+            return root.permission_blocks.filter(
+                user=request.user,
+                permission=models.PermissionBlock.PermissionEnum.OWNER
+            ).exists()
         return True
 
     def has_object_permission(self, request, view, obj):
@@ -65,15 +69,19 @@ class IsOWNER(BasePermission):
 class IsEDITOR(BasePermission):
 
     def has_permission(self, request, view):
+        parent_id = None
         if request.method == 'POST':
             parent_id = request.data.get('parent',
                                          request.data.get('block', None))
-            if parent_id is not None:
-                root = models.TextBlock.objects.find_root(parent_id)[0]
-                return root.permission_blocks.filter(
-                    user=request.user,
-                    permission=models.PermissionBlock.PermissionEnum.EDITOR
-                ).exists()
+        elif request.method == 'GET':
+            parent_id = request.query_params.get('block', None)
+
+        if parent_id is not None:
+            root = models.TextBlock.objects.find_root(parent_id)[0]
+            return root.permission_blocks.filter(
+                user=request.user,
+                permission=models.PermissionBlock.PermissionEnum.EDITOR
+            ).exists()
         return True
 
     def has_object_permission(self, request, view, obj):
@@ -89,15 +97,19 @@ class IsEDITOR(BasePermission):
 class IsVIEW(BasePermission):
 
     def has_permission(self, request, view):
+        parent_id = None
         if request.method == 'POST':
             parent_id = request.data.get('parent',
                                          request.data.get('block', None))
-            if parent_id is not None:
-                root = models.TextBlock.objects.find_root(parent_id)[0]
-                return root.permission_blocks.filter(
-                    user=request.user,
-                    permission=models.PermissionBlock.PermissionEnum.VIEW
-                ).exists()
+        elif request.method == 'GET':
+            parent_id = request.query_params.get('block', None)
+
+        if parent_id is not None:
+            root = models.TextBlock.objects.find_root(parent_id)[0]
+            return root.permission_blocks.filter(
+                user=request.user,
+                permission=models.PermissionBlock.PermissionEnum.VIEW
+            ).exists()
         return True
 
     def has_object_permission(self, request, view, obj):

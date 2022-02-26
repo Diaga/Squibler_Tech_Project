@@ -20,7 +20,7 @@ class TextBlockSerializer(ModelSerializer):
         }
 
     def create(self, validated_data):
-        instance = super().create(validated_data)
+        instance = super(TextBlockSerializer, self).create(validated_data)
 
         if instance.parent is None:
             models.PermissionBlock.objects.create(
