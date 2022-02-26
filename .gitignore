@@ -1,0 +1,9 @@
+# Python environment
+venv/
+
+# System Specific files
+.DS_Store
+.idea
+
+# Environment Variable Config file
+*.env
