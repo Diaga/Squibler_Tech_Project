@@ -279,6 +279,12 @@ class UpdateBlockByIdTestCase(APITestCase):
             'text': 'That document was ...'
         }
 
+        import diff_match_patch as dmp_module
+        dmp = dmp_module.diff_match_patch()
+        new_text = dmp.patch_toText(
+            dmp.patch_make(data['text'], updated_data['text'])
+        )
+
         block = models.TextBlock.objects.create(**data)
         models.PermissionBlock.objects.create(
             block=block, user=self.user,
@@ -287,7 +293,10 @@ class UpdateBlockByIdTestCase(APITestCase):
 
         self.client.force_authenticate(user=self.user)
 
-        res = self.client.patch(f'/v2/block/{block.id}/', updated_data)
+        res = self.client.patch(f'/v2/block/{block.id}/', {
+            'title': 'Intro to platform',
+            'text_diff': new_text
+        })
 
         self.assertEqual(res.status_code, status.HTTP_200_OK)
 
