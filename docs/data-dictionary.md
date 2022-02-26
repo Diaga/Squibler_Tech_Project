@@ -1,6 +1,8 @@
 
 ### Data Dictionary
 
+Please view inspiration at [Notion link](https://www.notion.so/blog/data-model-behind-notion).
+
 ### v2
 
 The v1 model is generic and allows the platform to introduce more types. For the given requirements, we just need two
@@ -33,13 +35,13 @@ The data dictionary (v2) is simplified as follows:
 
 #### TextBlock
 
-| Name     | Type | Description                                                                                                                                     | Properties   |
-|----------|------|-------------------------------------------------------------------------------------------------------------------------------------------------|--------------|
-| id       | uuid | Primary key for TextBlock model. Defaults to uuid4.                                                                                             | pk, unique   |
-| title    | str  | Title of the block.                                                                                                                             |              |
-| text     | str  | Text content of the block.                                                                                                                      |              |
-| children | list | Back links to children blocks from TextBlock table.                                                                                             |              |
-| parent   | uuid | Foreign key to parent TextBlock table.                                                                                                          | fk, nullable |
+| Name     | Type | Description                                          | Properties   |
+|----------|------|------------------------------------------------------|--------------|
+| id       | uuid | Primary key for TextBlock model. Defaults to uuid4.  | pk, unique   |
+| title    | str  | Title of the block. Defaults to "Untitled".          |              |
+| text     | str  | Text content of the block. Defaults to blank string. |              |
+| children | list | Back links to children blocks from TextBlock table.  |              |
+| parent   | uuid | Foreign key to parent TextBlock table.               | fk, nullable |
 
 ### v1
 
