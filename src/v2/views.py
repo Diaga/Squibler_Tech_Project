@@ -27,11 +27,13 @@ class UserViewSet(GenericViewSet,
 
 
 class TextBlockViewSet(GenericViewSet,
-                       mixins.CreateModelMixin):
+                       mixins.CreateModelMixin,
+                       mixins.RetrieveModelMixin):
     queryset = models.TextBlock.objects.all()
     serializer_class = serializers.TextBlockSerializer
 
     permission_classes = [
         IsAuthenticated,
-        IsPOST & (IsOWNER | IsEDITOR)
+        (IsPOST & (IsOWNER | IsEDITOR)) |
+        (IsGET & (IsOWNER | IsEDITOR | IsVIEW))
     ]

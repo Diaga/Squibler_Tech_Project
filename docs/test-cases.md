@@ -42,23 +42,24 @@
 ### Create block
 
 **Success**:
-- [ ] Authenticated and Editor
-- [ ] Authenticated and Owner
+- [x] Authenticated and Editor
+- [x] Authenticated and Owner
 
 **Fail**:
-- [ ] Authenticated and View
-- [ ] Unauthenticated
+- [x] Authenticated and View
+- [x] Authenticated
+- [x] Unauthenticated
 
 ### Retrieve block by id
 
 **Success**:
-- [ ] Authenticated and View
-- [ ] Authenticated and Editor
-- [ ] Authenticated and Owner
+- [x] Authenticated and View
+- [x] Authenticated and Editor
+- [x] Authenticated and Owner
 
 **Fail**:
-- [ ] Unauthenticated
-- [ ] Authenticated
+- [x] Unauthenticated
+- [x] Authenticated
 
 ### Update block by id
 

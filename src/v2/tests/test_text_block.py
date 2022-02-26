@@ -108,6 +108,33 @@ class CreateTextBlockTestCase(APITestCase):
 
         self.assertEqual(res.status_code, status.HTTP_403_FORBIDDEN)
 
+    def test_authenticated(self):
+        data = {
+            'title': 'Intro',
+            'text': 'This document is ...'
+        }
+
+        owner_user = models.User.objects.create(
+            email='owner@example.com', password='testpass'
+        )
+        owner_user.set_password(owner_user.password)
+        owner_user.save()
+
+        owner_block = models.TextBlock.objects.create(
+            **data
+        )
+        models.PermissionBlock.objects.create(
+            block=owner_block, user=owner_user,
+            permission=models.PermissionBlock.PermissionEnum.OWNER
+        )
+
+        data.update({'parent': str(owner_block.id)})
+        self.client.force_authenticate(user=self.user)
+
+        res = self.client.post('/v2/block/', data)
+
+        self.assertEqual(res.status_code, status.HTTP_403_FORBIDDEN)
+
     def test_unauthenticated(self):
         data = {
             'title': 'Intro',
@@ -132,4 +159,101 @@ class CreateTextBlockTestCase(APITestCase):
 
         res = self.client.post('/v2/block/', data)
 
+        self.assertEqual(res.status_code, status.HTTP_401_UNAUTHORIZED)
+
+
+class RetrieveBlockByIdTestCase(APITestCase):
+
+    def setUp(self) -> None:
+        self.user = models.User.objects.create(
+            email='test@example.com', password='testpass'
+        )
+        self.user.set_password(self.user.password)
+        self.user.save()
+
+    def test_authenticated_and_owner(self):
+        data = {
+            'title': 'Intro',
+            'text': 'This document is ...'
+        }
+
+        block = models.TextBlock.objects.create(**data)
+        models.PermissionBlock.objects.create(
+            block=block, user=self.user,
+            permission=models.PermissionBlock.PermissionEnum.OWNER
+        )
+
+        self.client.force_authenticate(user=self.user)
+
+        res = self.client.get(f'/v2/block/{block.id}/')
+
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+        self.assertDictEqual(res.data, serializers.TextBlockSerializer(
+            block
+        ).data)
+
+    def test_authenticated_and_editor(self):
+        data = {
+            'title': 'Intro',
+            'text': 'This document is ...'
+        }
+
+        block = models.TextBlock.objects.create(**data)
+        models.PermissionBlock.objects.create(
+            block=block, user=self.user,
+            permission=models.PermissionBlock.PermissionEnum.EDITOR
+        )
+
+        self.client.force_authenticate(user=self.user)
+
+        res = self.client.get(f'/v2/block/{block.id}/')
+
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+        self.assertDictEqual(res.data, serializers.TextBlockSerializer(
+            block
+        ).data)
+
+    def test_authenticated_and_view(self):
+        data = {
+            'title': 'Intro',
+            'text': 'This document is ...'
+        }
+
+        block = models.TextBlock.objects.create(**data)
+        models.PermissionBlock.objects.create(
+            block=block, user=self.user,
+            permission=models.PermissionBlock.PermissionEnum.VIEW
+        )
+
+        self.client.force_authenticate(user=self.user)
+
+        res = self.client.get(f'/v2/block/{block.id}/')
+
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+        self.assertDictEqual(res.data, serializers.TextBlockSerializer(
+            block
+        ).data)
+
+    def test_authenticated(self):
+        data = {
+            'title': 'Intro',
+            'text': 'This document is ...'
+        }
+
+        block = models.TextBlock.objects.create(**data)
+
+        self.client.force_authenticate(user=self.user)
+
+        res = self.client.get(f'/v2/block/{block.id}/')
+        self.assertEqual(res.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_unauthenticated(self):
+        data = {
+            'title': 'Intro',
+            'text': 'This document is ...'
+        }
+
+        block = models.TextBlock.objects.create(**data)
+
+        res = self.client.get(f'/v2/block/{block.id}/')
         self.assertEqual(res.status_code, status.HTTP_401_UNAUTHORIZED)
