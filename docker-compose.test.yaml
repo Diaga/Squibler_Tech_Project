@@ -1,0 +1,13 @@
+version: '3.6'
+services:
+  action:
+    build:
+      context: ./
+      dockerfile: ./src/Dockerfile
+    volumes:
+      - "./ActionService:/ActionService"
+    command: >
+      sh -c "python manage.py test"
+    ports:
+      - "8000:8000"
+    restart: always
