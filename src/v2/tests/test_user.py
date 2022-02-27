@@ -151,7 +151,7 @@ class RetrieveUserByIdTestCase(APITestCase):
         self.assertDictEqual(res.data, serializers.UserSerializer(user).data)
 
     def test_unauthenticated(self):
-        res = self.client.get(f'/v2/user/uuid/')
+        res = self.client.get('/v2/user/uuid/')
         self.assertEqual(res.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_user_does_not_exist(self):
@@ -164,5 +164,5 @@ class RetrieveUserByIdTestCase(APITestCase):
 
         self.client.force_authenticate(user=user)
 
-        res = self.client.get(f'/v2/user/uuid/')
+        res = self.client.get('/v2/user/uuid/')
         self.assertEqual(res.status_code, status.HTTP_404_NOT_FOUND)

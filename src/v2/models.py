@@ -28,7 +28,7 @@ class TextBlockManager(models.Manager):
         """Recursively finds the root of the block"""
         return TextBlock.objects.raw('''
                 WITH RECURSIVE block(id, parent) AS (
-                      SELECT id, parent 
+                      SELECT id, parent
                       FROM v2_textblock
                       WHERE id = %s
                     UNION ALL
