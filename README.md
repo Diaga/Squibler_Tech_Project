@@ -53,9 +53,9 @@ $ docker compose -f docker-compose.test.yaml up
 $ docker compose up
 ```
 
-## Docs
+## Changelog
 
-Please view [docs](docs/README.md) for software design decisions.
+Please read [CHANGELOG](CHANGELOG.md) to view development progress.
 
 ## License
 
